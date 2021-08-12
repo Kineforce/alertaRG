@@ -4,6 +4,10 @@
 let notifica = true;
 let notificado = 0;
 let cnt_change = 0;
+let body = $('body');
+let mp3_href = 'https://www.myinstants.com/media/sounds/sound-9______.mp3'
+let sound_html = `<audio><source id="alert_song" src="${mp3_href}" type="audio/mpeg"></audio>`;
+
 
 // Data a ser enviada no body
 let post_data = { 
@@ -25,15 +29,11 @@ const start_post = setInterval(()=>{
     $.post(url_endpoint, post_data, (response)=>{
         
         horarios = response['data']
-    
-        console.log(horarios);
-
         horarios.map((l)=>{
 
             let u_a = l.OrgaoExecutorJsonString.toLowerCase();
-            console.log(u_a);
 
-            if ( (u_a.search(nome_cidade_1) > -1 || u_a.search(nome_cidade_2) > -1) && notifica){
+            if ( (u_a.search(nome_cidade_1) > -1 || u_a.search(nome_cidade_2) > -1 || 1 == 1) && notifica){
                 notificado += 1;
                 console.log("Chamando a função notificaFavicon()")
                 notificaFavicon();
@@ -46,11 +46,9 @@ const start_post = setInterval(()=>{
 
 function notificaFavicon(){
 
-    let body = $('body');
-
-    let sound_html = '<audio><source src="https://www.myinstants.com/media/sounds/giornos-theme-but-only-the-best-part-is-in_vwd15lya_lyb0-online-audio-converter.mp3" type="audio/mpeg"></audio>';
-
-    body.append(sound_html);
+    if (!$('#alert_song')){
+        body.append(sound_html);
+    }
 
     (function myLoop() {     
         
